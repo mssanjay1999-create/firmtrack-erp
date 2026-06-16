@@ -13,6 +13,8 @@ import 'features/labour/screens/labour_attendance_screen.dart';
 import 'features/labour/screens/labour_payment_screen.dart';
 import 'features/production/screens/production_list_screen.dart';
 import 'features/production/screens/production_form_screen.dart';
+import 'features/invoices/screens/invoice_list_screen.dart';
+import 'features/invoices/screens/invoice_form_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,6 +66,8 @@ class FirmTrackApp extends StatelessWidget {
         '/labour-payment': (context) => const LabourPaymentScreen(),
         '/production-list': (context) => const ProductionListScreen(),
         '/production-form': (context) => const ProductionFormScreen(),
+        '/invoice-list': (context) => const InvoiceListScreen(),
+        '/invoice-form': (context) => const InvoiceFormScreen(),
       },
     );
   }
