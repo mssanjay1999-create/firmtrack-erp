@@ -19,6 +19,8 @@ import 'features/payments/screens/payment_form_screen.dart';
 import 'features/payments/screens/customer_ledger_screen.dart';
 import 'features/expenses/screens/expense_list_screen.dart';
 import 'features/expenses/screens/expense_form_screen.dart';
+import 'features/backup/screens/backup_screen.dart';
+import 'features/backup/screens/restore_screen.dart';
 import 'features/reports/screens/reports_screen.dart';
 import 'features/reports/screens/sales_report_screen.dart';
 import 'features/reports/screens/expense_report_screen.dart';
@@ -80,6 +82,8 @@ class FirmTrackApp extends StatelessWidget {
         '/customer-ledger': (context) => const CustomerLedgerScreen(),
         '/expense-list': (context) => const ExpenseListScreen(),
         '/expense-form': (context) => const ExpenseFormScreen(),
+        '/backup': (context) => const BackupScreen(),
+        '/restore': (context) => const RestoreScreen(),
       '/reports': (context) => const ReportsScreen(),
       '/sales-report': (context) => const SalesReportScreen(),
       '/expense-report': (context) => const ExpenseReportScreen(),
