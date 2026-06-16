@@ -17,6 +17,8 @@ import 'features/invoices/screens/invoice_list_screen.dart';
 import 'features/invoices/screens/invoice_form_screen.dart';
 import 'features/payments/screens/payment_form_screen.dart';
 import 'features/payments/screens/customer_ledger_screen.dart';
+import 'features/expenses/screens/expense_list_screen.dart';
+import 'features/expenses/screens/expense_form_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -72,6 +74,8 @@ class FirmTrackApp extends StatelessWidget {
         '/invoice-form': (context) => const InvoiceFormScreen(),
         '/payment-form': (context) => const PaymentFormScreen(),
         '/customer-ledger': (context) => const CustomerLedgerScreen(),
+        '/expense-list': (context) => const ExpenseListScreen(),
+        '/expense-form': (context) => const ExpenseFormScreen(),
       },
     );
   }
