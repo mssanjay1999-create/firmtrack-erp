@@ -265,4 +265,9 @@ class DatabaseHelper {
     await db.execute('CREATE INDEX IF NOT EXISTS idx_expenses_category ON expenses(category)');
     await db.execute('CREATE INDEX IF NOT EXISTS idx_expenses_expense_date ON expenses(expense_date)');
   }
+  Future<bool> isCompanySetup() async {
+  final db = await database;
+  final result = await db.query('company', limit: 1);
+  return result.isNotEmpty;
+}
 }

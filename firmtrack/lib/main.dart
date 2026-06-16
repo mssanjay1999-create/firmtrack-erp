@@ -1,41 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'core/constants/app_constants.dart';
 import 'core/database/database_helper.dart';
 import 'features/company_settings/screens/company_settings_screen.dart';
+import 'features/dashboard/screens/dashboard_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Lock to portrait mode only
+  // Lock to portrait
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
 
-  // Initialize database on startup
+  // Initialize database
   await DatabaseHelper.instance.database;
 
-  // Check if company is already set up
-  final bool isCompanySetup = await _checkCompanySetup();
+  // Check if company is set up
+  final isSetup = await DatabaseHelper.instance.isCompanySetup();
 
-  runApp(FirmTrackApp(isCompanySetup: isCompanySetup));
-}
-
-/// Check if company settings have been saved
-Future<bool> _checkCompanySetup() async {
-  try {
-    final db = await DatabaseHelper.instance.database;
-    final result = await db.query(
-      'company',
-      columns: ['id'],
-      limit: 1,
-    );
-    return result.isNotEmpty;
-  } catch (e) {
-    debugPrint('Error checking company setup: $e');
-    return false;
-  }
+  runApp(FirmTrackApp(isCompanySetup: isSetup));
 }
 
 class FirmTrackApp extends StatelessWidget {
@@ -46,110 +30,21 @@ class FirmTrackApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: AppConstants.appName,
+      title: 'FirmTrack ERP',
       debugShowCheckedModeBanner: false,
-      theme: _buildAppTheme(),
-      home: isCompanySetup
-          ? const _PlaceholderDashboard()
-          : const CompanySettingsScreen(isFirstSetup: true),
-    );
-  }
-
-  ThemeData _buildAppTheme() {
-    return ThemeData(
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color(0xFF1565C0),
-        brightness: Brightness.light,
-      ),
-      useMaterial3: true,
-
-      appBarTheme: const AppBarTheme(
-        backgroundColor: Color(0xFF1565C0),
-        foregroundColor: Colors.white,
-        elevation: 2,
-        centerTitle: false,
-        titleTextStyle: TextStyle(
-          color: Colors.white,
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+        useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          centerTitle: false,
+          elevation: 0,
         ),
       ),
-
-      cardTheme: CardThemeData(
-        elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      ),
-
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF1565C0),
-          foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(6),
-          ),
-          textStyle: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-
-      inputDecorationTheme: InputDecorationTheme(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6),
-        ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 14,
-        ),
-        filled: true,
-        fillColor: Colors.grey.shade50,
-      ),
-
-      snackBarTheme: const SnackBarThemeData(
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(6)),
-        ),
-      ),
-
-      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        selectedItemColor: Color(0xFF1565C0),
-        unselectedItemColor: Colors.grey,
-        type: BottomNavigationBarType.fixed,
-        showUnselectedLabels: true,
-      ),
-    );
-  }
-}
-
-// Placeholder — will be replaced by DashboardScreen in Step 3
-class _PlaceholderDashboard extends StatelessWidget {
-  const _PlaceholderDashboard();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text(AppConstants.appName)),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.dashboard, size: 64, color: Color(0xFF1565C0)),
-            SizedBox(height: 16),
-            Text(
-              'Dashboard',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-            ),
-            SizedBox(height: 8),
-            Text('(Coming in Step 3)', style: TextStyle(color: Colors.grey)),
-          ],
-        ),
-      ),
+      initialRoute: isCompanySetup ? '/dashboard' : '/company_settings',
+      routes: {
+        '/company_settings': (context) => const CompanySettingsScreen(),
+        '/dashboard': (context) => const DashboardScreen(),
+      },
     );
   }
 }
