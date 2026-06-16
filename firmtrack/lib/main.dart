@@ -15,6 +15,8 @@ import 'features/production/screens/production_list_screen.dart';
 import 'features/production/screens/production_form_screen.dart';
 import 'features/invoices/screens/invoice_list_screen.dart';
 import 'features/invoices/screens/invoice_form_screen.dart';
+import 'features/payments/screens/payment_form_screen.dart';
+import 'features/payments/screens/customer_ledger_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -68,6 +70,8 @@ class FirmTrackApp extends StatelessWidget {
         '/production-form': (context) => const ProductionFormScreen(),
         '/invoice-list': (context) => const InvoiceListScreen(),
         '/invoice-form': (context) => const InvoiceFormScreen(),
+        '/payment-form': (context) => const PaymentFormScreen(),
+        '/customer-ledger': (context) => const CustomerLedgerScreen(),
       },
     );
   }
