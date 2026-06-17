@@ -28,7 +28,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     super.initState();
     if (_isEditing) {
       final p = widget.product!;
-      _nameController.text = p['name'] ?? '';
+      _nameController.text = p['product_name'] ?? '';
       _codeController.text = p['code'] ?? '';
       _categoryController.text = p['category'] ?? '';
       _descriptionController.text = p['description'] ?? '';
@@ -55,13 +55,12 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     final now = DateTime.now().toIso8601String();
 
     final data = {
-      'name': _nameController.text.trim(),
+      'product_name': _nameController.text.trim(),
       'code': _codeController.text.trim(),
       'category': _categoryController.text.trim(),
       'unit': _selectedUnit,
       'description': _descriptionController.text.trim(),
       'min_stock_level': int.tryParse(_minStockController.text.trim()) ?? 0,
-      'updated_at': now,
     };
 
     if (_isEditing) {

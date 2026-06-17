@@ -53,7 +53,7 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
     setState(() {
       _selectedCustomer = customer;
       _customerAdvance = customer != null
-          ? ((customer['advance_balance'] ?? 0.0) as num).toDouble()
+          ? 0.0
           : 0.0;
       _applyAdvance = false;
     });
@@ -161,7 +161,7 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
           'invoice_date': dateStr,
           'total_amount': _subtotal,
           'advance_used': advanceApplied,
-          'balance_amount': balanceAmount,
+          'balance': balanceAmount,
           'status': balanceAmount <= 0 ? 'Paid' : 'Unpaid',
           'notes': _notes,
           'created_at': now,
@@ -173,6 +173,7 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
             'invoice_id': invoiceId,
             'product_id': item['product_id'],
             'quantity': item['quantity'],
+            'unit': item['unit'],
             'rate': item['rate'],
             'amount': item['amount'],
           });
@@ -181,18 +182,15 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
             'product_id': item['product_id'],
             'quantity': item['quantity'],
             'movement_type': 'Sold',
+            'unit': item['unit'],
             'reference': invoiceNumber,
-            'date': dateStr,
+            'movement_date': dateStr,
             'created_at': now,
           });
         }
 
         // Deduct advance from customer if applied
-        if (advanceApplied > 0) {
-          await txn.rawUpdate('''
-            UPDATE customers SET advance_balance = advance_balance - ? WHERE id = ?
-          ''', [advanceApplied, _selectedCustomer!['id']]);
-        }
+        // advance is runtime calculated - no column to update
       });
 
       if (mounted) {

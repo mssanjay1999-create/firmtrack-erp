@@ -50,7 +50,7 @@ class _LabourListScreenState extends State<LabourListScreen> {
       } else {
         // Piece Rate — earned from production entries
         final earnedRows = await db.rawQuery(
-          'SELECT COALESCE(SUM(lpi.quantity_made * lpi.rate_per_unit), 0) as total '
+          'SELECT COALESCE(SUM(lpi.amount), 0) as total '
           'FROM labour_production lp '
           'JOIN labour_production_items lpi ON lpi.production_id = lp.id '
           "WHERE lp.labour_id = ? AND lp.status != 'Cancelled'",
