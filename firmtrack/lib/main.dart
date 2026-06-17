@@ -25,6 +25,7 @@ import 'features/reports/screens/reports_screen.dart';
 import 'features/reports/screens/sales_report_screen.dart';
 import 'features/reports/screens/expense_report_screen.dart';
 import 'features/reports/screens/profit_loss_screen.dart';
+import 'shared/widgets/main_shell.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,7 +66,7 @@ class FirmTrackApp extends StatelessWidget {
       initialRoute: isCompanySetup ? '/dashboard' : '/company_settings',
       routes: {
         '/company_settings': (context) => const CompanySettingsScreen(),
-        '/dashboard': (context) => const DashboardScreen(),
+        '/dashboard': (context) => const MainShell(),
         '/stock-list': (context) => const StockListScreen(),
         '/stock-in': (context) => const StockInScreen(),
         '/customer-list': (context) => const CustomerListScreen(),

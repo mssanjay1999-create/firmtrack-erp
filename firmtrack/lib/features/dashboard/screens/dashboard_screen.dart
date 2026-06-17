@@ -267,7 +267,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: _QuickActionButton(
                 icon: Icons.payments_outlined,
                 label: 'Add Payment',
-                onTap: () => Navigator.pushNamed(context, '/payment-form').then((_) => _loadDashboardData()),
+                onTap: () => Navigator.pushNamed(context, '/invoice-list').then((_) => _loadDashboardData()),
               ),
             ),
             const SizedBox(width: 10),
