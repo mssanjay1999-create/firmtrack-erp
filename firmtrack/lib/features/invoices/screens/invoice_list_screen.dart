@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 // ignore: unused_import
 import '../../../core/database/database_helper.dart';
-import '../../../core/constants/app_constants.dart';
 
 class InvoiceListScreen extends StatefulWidget {
   const InvoiceListScreen({super.key});
@@ -89,18 +88,13 @@ class _InvoiceListScreenState extends State<InvoiceListScreen> {
           'quantity': item['quantity'],
           'movement_type': 'Sold Reversed',
           'reference': invoice['invoice_number'],
-          'date': DateTime.now().toIso8601String().substring(0, 10),
+          'movement_date': DateTime.now().toIso8601String().substring(0, 10),
           'created_at': DateTime.now().toIso8601String(),
         });
       }
 
       // Reverse advance if applied
-      final advanceUsed = (invoice['advance_used'] ?? 0.0) as num;
-      if (advanceUsed > 0) {
-        await txn.rawUpdate('''
-          UPDATE customers SET advance_balance = advance_balance + ? WHERE id = ?
-        ''', [advanceUsed, invoice['customer_id']]);
-      }
+      // advance is runtime calculated - no column to update
 
       // Update invoice status
       await txn.update('invoices', {'status': 'Cancelled'},
@@ -162,7 +156,7 @@ class _InvoiceListScreenState extends State<InvoiceListScreen> {
                           final inv = filtered[i];
                           final status = inv['status'] ?? 'Unpaid';
                           final total = (inv['total_amount'] ?? 0.0) as num;
-                          final balance = (inv['balance_amount'] ?? 0.0) as num;
+                          final balance = (inv['balance'] ?? 0.0) as num;
                           return Card(
                             margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                             child: ListTile(

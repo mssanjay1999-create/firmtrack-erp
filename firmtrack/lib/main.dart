@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'core/database/database_helper.dart';
 import 'features/company_settings/screens/company_settings_screen.dart';
-import 'features/dashboard/screens/dashboard_screen.dart';
 import 'features/inventory/screens/stock_list_screen.dart';
 import 'features/inventory/screens/stock_in_screen.dart';
 import 'features/customers/screens/customer_list_screen.dart';

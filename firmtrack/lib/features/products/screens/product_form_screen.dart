@@ -29,7 +29,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     if (_isEditing) {
       final p = widget.product!;
       _nameController.text = p['product_name'] ?? '';
-      _codeController.text = p['code'] ?? '';
+      _codeController.text = p['product_code'] ?? '';
       _categoryController.text = p['category'] ?? '';
       _descriptionController.text = p['description'] ?? '';
       _minStockController.text = (p['min_stock_level'] ?? '').toString();
@@ -56,7 +56,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
 
     final data = {
       'product_name': _nameController.text.trim(),
-      'code': _codeController.text.trim(),
+      'product_code': _codeController.text.trim(),
       'category': _categoryController.text.trim(),
       'unit': _selectedUnit,
       'description': _descriptionController.text.trim(),
@@ -66,7 +66,6 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     if (_isEditing) {
       await db.update('products', data, where: 'id = ?', whereArgs: [widget.product!['id']]);
     } else {
-      data['current_stock'] = 0;
       data['created_at'] = now;
       await db.insert('products', data);
     }

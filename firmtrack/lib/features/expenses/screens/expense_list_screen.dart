@@ -37,13 +37,13 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
     final db = await _db.database;
     List<Map<String, dynamic>> results;
     if (_selectedCategory == 'All') {
-      results = await db.query('expenses', orderBy: 'date DESC');
+      results = await db.query('expenses', orderBy: 'expense_date DESC');
     } else {
       results = await db.query(
         'expenses',
         where: 'category = ?',
         whereArgs: [_selectedCategory],
-        orderBy: 'date DESC',
+        orderBy: 'expense_date DESC',
       );
     }
     double total = 0.0;
@@ -200,9 +200,9 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
                           final isLabourSalary = expense['category'] == 'Labour Salary';
                           final category = expense['category'] as String;
                           final expAmount = (expense['amount'] as num).toDouble();
-                          final date = expense['date'] as String;
-                          final notes = expense['notes'] as String? ?? '';
-                          final paidBy = expense['paid_by'] as String? ?? '';
+                          final date = expense['expense_date'] as String;
+                          final notes = expense['note'] as String? ?? '';
+                          const paidBy = '';
                           return Card(
                             margin: const EdgeInsets.only(bottom: 8),
                             child: ListTile(

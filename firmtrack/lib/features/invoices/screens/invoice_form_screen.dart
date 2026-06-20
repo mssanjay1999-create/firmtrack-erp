@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../core/database/database_helper.dart';
-import '../../../core/constants/app_constants.dart';
 
 class InvoiceFormScreen extends StatefulWidget {
   const InvoiceFormScreen({super.key});
@@ -13,6 +12,7 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
   final _formKey = GlobalKey<FormState>();
   List<Map<String, dynamic>> _customers = [];
   List<Map<String, dynamic>> _products = [];
+  int? _selectedCustomerId;
   Map<String, dynamic>? _selectedCustomer;
   DateTime _invoiceDate = DateTime.now();
   final List<Map<String, dynamic>> _lineItems = [];
@@ -30,7 +30,7 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
   Future<void> _loadData() async {
     final db = await DatabaseHelper.instance.database;
     final customers = await db.query('customers', orderBy: 'name ASC');
-    final products = await db.query('products', orderBy: 'name ASC');
+    final products = await db.query('products', orderBy: 'product_name ASC');
     setState(() {
       _customers = customers;
       _products = products;
@@ -49,12 +49,13 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
     return '$prefix-${next.toString().padLeft(3, '0')}';
   }
 
-  void _onCustomerChanged(Map<String, dynamic>? customer) {
+  void _onCustomerChanged(int? customerId) {
     setState(() {
-      _selectedCustomer = customer;
-      _customerAdvance = customer != null
-          ? 0.0
-          : 0.0;
+      _selectedCustomerId = customerId;
+      _selectedCustomer = customerId != null
+          ? _customers.firstWhere((c) => c['id'] == customerId)
+          : null;
+      _customerAdvance = 0.0;
       _applyAdvance = false;
     });
   }
@@ -68,6 +69,7 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
         'rate': 0.0,
         'amount': 0.0,
         'available_stock': 0.0,
+        'unit': '',
       });
     });
   }
@@ -87,8 +89,8 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
     final stock = ((stockResult.first['stock'] as num?) ?? 0.0).toDouble();
     setState(() {
       _lineItems[index]['product_id'] = product['id'];
-      _lineItems[index]['product_name'] = product['name'];
-      _lineItems[index]['rate'] = ((product['selling_price'] ?? 0.0) as num).toDouble();
+      _lineItems[index]['product_name'] = product['product_name'];
+      _lineItems[index]['rate'] = 0.0;
       _lineItems[index]['available_stock'] = stock;
       _lineItems[index]['amount'] =
           _lineItems[index]['quantity'] * _lineItems[index]['rate'];
@@ -232,15 +234,15 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
           padding: const EdgeInsets.all(16),
           children: [
             // Customer
-            DropdownButtonFormField<Map<String, dynamic>>(
-              value: _selectedCustomer,
+            DropdownButtonFormField<int>(
+              value: _selectedCustomerId,
               decoration: const InputDecoration(
                 labelText: 'Customer *',
                 border: OutlineInputBorder(),
               ),
               items: _customers
-                  .map((c) => DropdownMenuItem(
-                        value: c,
+                  .map((c) => DropdownMenuItem<int>(
+                        value: c['id'] as int,
                         child: Text(c['name'].toString()),
                       ))
                   .toList(),
