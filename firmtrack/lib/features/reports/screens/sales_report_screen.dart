@@ -62,7 +62,7 @@ class _SalesReportScreenState extends State<SalesReportScreen> {
     final end = range.end.toIso8601String();
 
     final invoices = await db.rawQuery(
-      "SELECT i.id, i.customer_id, c.name as customer_name, i.total_amount, i.paid_amount, i.balance_amount FROM invoices i LEFT JOIN customers c ON i.customer_id = c.id WHERE i.status != 'Cancelled' AND i.invoice_date BETWEEN ? AND ?",
+      "SELECT i.id, i.customer_id, c.name as customer_name, i.total_amount, i.paid_amount, i.balance FROM invoices i LEFT JOIN customers c ON i.customer_id = c.id WHERE i.status != 'Cancelled' AND i.invoice_date BETWEEN ? AND ?",
       [start, end],
     );
 
@@ -74,7 +74,7 @@ class _SalesReportScreenState extends State<SalesReportScreen> {
     for (final inv in invoices) {
       totalSales += (inv['total_amount'] as num).toDouble();
       totalPaid += (inv['paid_amount'] as num).toDouble();
-      totalBalance += (inv['balance_amount'] as num).toDouble();
+      totalBalance += (inv['balance'] as num).toDouble();
       final cid = inv['customer_id'] as int;
       if (!byCustomer.containsKey(cid)) {
         byCustomer[cid] = {
@@ -86,7 +86,7 @@ class _SalesReportScreenState extends State<SalesReportScreen> {
       }
       byCustomer[cid]!['total'] += (inv['total_amount'] as num).toDouble();
       byCustomer[cid]!['paid'] += (inv['paid_amount'] as num).toDouble();
-      byCustomer[cid]!['balance'] += (inv['balance_amount'] as num).toDouble();
+      byCustomer[cid]!['balance'] += (inv['balance'] as num).toDouble();
     }
 
     setState(() {

@@ -202,11 +202,11 @@ class _LabourDetailScreenState extends State<LabourDetailScreen>
     return Container(color:Colors.white,
       padding:const EdgeInsets.symmetric(vertical:12,horizontal:16),
       child:Row(children:[
-        _chip('Earned','Rs.\${_fmtAmt(_totalEarned)}',_earned),
+        _chip('Earned','Rs.${_fmtAmt(_totalEarned)}',_earned),
         const SizedBox(width:12),
-        _chip('Paid','Rs.\${_fmtAmt(_totalPaid)}',_paid),
+        _chip('Paid','Rs.${_fmtAmt(_totalPaid)}',_paid),
         const SizedBox(width:12),
-        _chip('Balance','Rs.\${_fmtAmt(bal)}',_balance),
+        _chip('Balance','Rs.${_fmtAmt(bal)}',_balance),
       ]));
   }
 
@@ -241,7 +241,7 @@ class _LabourDetailScreenState extends State<LabourDetailScreen>
               style:const TextStyle(fontWeight:FontWeight.w600)),
           subtitle:Text(status),
           trailing:Row(mainAxisSize:MainAxisSize.min,children:[
-            Text('Rs.\${_fmtAmt(earned)}',style:const TextStyle(fontWeight:FontWeight.bold,color:Color(0xFF388E3C))),
+            Text('Rs.${_fmtAmt(earned)}',style:const TextStyle(fontWeight:FontWeight.bold,color:Color(0xFF388E3C))),
             IconButton(icon:const Icon(Icons.delete_outline,color:Colors.red,size:20),
               onPressed:()=>_deleteAttendance(a['id'] as int)),
           ])));
@@ -316,20 +316,20 @@ class _LabourDetailScreenState extends State<LabourDetailScreen>
                   Text(_fmtDate(row['date'] as String? ??''),style:const TextStyle(fontSize:12,color:Colors.grey)),
                   Text(row['details'] as String? ??'',style:const TextStyle(fontWeight:FontWeight.w600,fontSize:13)),
                 ])),
-                Expanded(flex:2,child:Text(isE?'+Rs.\${_fmtAmt(ea)}':'-Rs.\${_fmtAmt(pa)}',
+                Expanded(flex:2,child:Text(isE?'+Rs.${_fmtAmt(ea)}':'-Rs.${_fmtAmt(pa)}',
                   textAlign:TextAlign.center,
                   style:TextStyle(color:isE?_earned:_paid,fontWeight:FontWeight.w600,fontSize:13))),
-                Expanded(flex:2,child:Text('Rs.\${_fmtAmt(bal)}',textAlign:TextAlign.right,
+                Expanded(flex:2,child:Text('Rs.${_fmtAmt(bal)}',textAlign:TextAlign.right,
                   style:TextStyle(fontWeight:FontWeight.bold,color:bal>0?_balance:Colors.grey))),
               ])));
         })),
       Container(color:Colors.white,padding:const EdgeInsets.symmetric(horizontal:16,vertical:10),
         child:Row(children:[
-          Expanded(child:Text('Earned: Rs.\${_fmtAmt(_totalEarned)}',
+          Expanded(child:Text('Earned: Rs.${_fmtAmt(_totalEarned)}',
             style:const TextStyle(fontWeight:FontWeight.bold,color:Color(0xFF388E3C),fontSize:12))),
-          Expanded(child:Text('Paid: Rs.\${_fmtAmt(_totalPaid)}',textAlign:TextAlign.center,
+          Expanded(child:Text('Paid: Rs.${_fmtAmt(_totalPaid)}',textAlign:TextAlign.center,
             style:const TextStyle(fontWeight:FontWeight.bold,color:Color(0xFF1565C0),fontSize:12))),
-          Expanded(child:Text('Balance: Rs.\${_fmtAmt(_totalEarned-_totalPaid)}',textAlign:TextAlign.right,
+          Expanded(child:Text('Balance: Rs.${_fmtAmt(_totalEarned-_totalPaid)}',textAlign:TextAlign.right,
             style:const TextStyle(fontWeight:FontWeight.bold,color:Color(0xFFE65100),fontSize:12))),
         ])),
     ]);

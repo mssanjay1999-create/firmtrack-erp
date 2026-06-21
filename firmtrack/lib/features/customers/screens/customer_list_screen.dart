@@ -148,7 +148,7 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: Row(
               children: [
-                Text('\${_filtered.length} customer(s)',
+                Text('${_filtered.length} customer(s)',
                     style: const TextStyle(color: Colors.grey)),
               ],
             ),
@@ -189,7 +189,7 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    '₹\${outstanding.toStringAsFixed(2)}',
+                                    '₹${outstanding.toStringAsFixed(2)}',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: outstanding > 0

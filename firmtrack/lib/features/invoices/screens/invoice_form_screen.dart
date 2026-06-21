@@ -347,7 +347,7 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
                         items: _products
                             .map((p) => DropdownMenuItem(
                                   value: p,
-                                  child: Text(p['name'].toString()),
+                                  child: Text(p['product_name'].toString()),
                                 ))
                             .toList(),
                         onChanged: (p) => _onProductSelected(i, p),

@@ -30,7 +30,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Future<void> _loadProducts() async {
     setState(() => _isLoading = true);
     final db = await DatabaseHelper.instance.database;
-    final result = await db.query('products', orderBy: 'name ASC');
+    final result = await db.query('products', orderBy: 'product_name ASC');
     setState(() {
       _products = result;
       _filtered = result;
@@ -44,7 +44,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
       _filtered = q.isEmpty
           ? _products
           : _products.where((p) {
-              return (p['name'] as String).toLowerCase().contains(q) ||
+              return (p['product_name'] as String).toLowerCase().contains(q) ||
                   ((p['code'] ?? '') as String).toLowerCase().contains(q) ||
                   ((p['category'] ?? '') as String).toLowerCase().contains(q);
             }).toList();
@@ -168,7 +168,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                               color: isLowStock ? Colors.red : const Color(0xFF1565C0),
                             ),
                           ),
-                          title: Text(p['name'] ?? '', style: const TextStyle(fontWeight: FontWeight.bold)),
+                          title: Text(p['product_name'] ?? '', style: const TextStyle(fontWeight: FontWeight.bold)),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -198,7 +198,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                 );
                                 _loadProducts();
                               } else if (value == 'delete') {
-                                await _deleteProduct(p['id'] as int, p['name'] as String);
+                                await _deleteProduct(p['id'] as int, p['product_name'] as String);
                               }
                             },
                             itemBuilder: (_) => [

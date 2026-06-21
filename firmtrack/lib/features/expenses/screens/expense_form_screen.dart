@@ -85,8 +85,8 @@ class _ExpenseFormScreenState extends State<ExpenseFormScreen> {
     final data = {
       'category': _selectedCategory,
       'amount': amount,
-      'date': _selectedDate.toIso8601String().substring(0, 10),
-      'notes': _notesController.text.trim(),
+      'expense_date': _selectedDate.toIso8601String().substring(0, 10),
+      'note': _notesController.text.trim(),
     };
 
     if (_isEdit && _expenseId != null) {

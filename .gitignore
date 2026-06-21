@@ -1,0 +1,12 @@
+# Android SDK
+android-sdk/
+cmdline-tools.zip
+
+# Flutter SDK
+flutter/
+
+# Flutter build artifacts
+firmtrack/.dart_tool/
+firmtrack/build/
+firmtrack/.flutter-plugins
+firmtrack/.flutter-plugins-dependencies
