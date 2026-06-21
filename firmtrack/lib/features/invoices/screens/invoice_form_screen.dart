@@ -82,7 +82,7 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
     if (product == null) return;
     final db = await DatabaseHelper.instance.database;
     final stockResult = await db.rawQuery('''
-      SELECT COALESCE(SUM(CASE WHEN movement_type IN ('Purchase','Opening Stock','Manual Addition','Sold Reversed','Production In')
+      SELECT COALESCE(SUM(CASE WHEN movement_type IN ('Purchase','Opening Stock','Manual Addition','Production','Sold Reversed','Consumed Reversed')
         THEN quantity ELSE -quantity END), 0) as stock
       FROM stock_in WHERE product_id = ?
     ''', [product['id']]);
